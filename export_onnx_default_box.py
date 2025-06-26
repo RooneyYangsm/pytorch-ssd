@@ -68,6 +68,21 @@ anchor = net.config.priors
 with open(def_filename, 'wb') as f:
     f.write(to_bytes(anchor))
 
+def_filename=f"models/{net_type}.anc"
+
+def to_floats(anchor):
+    anchor = anchor.reshape(-1).tolist()
+
+    t = c_float * len(anchor)
+    buf = t()
+
+    for k, v in enumerate(anchor):
+        buf[k] = v
+    return buf
+
+with open(def_filename, "wb") as f:
+    f.write(to_floats(anchor))
+
 # model = onnx.load(model_path)
 # init_net, predict_net = c2.onnx_graph_to_caffe2_net(model)
 # 
